@@ -1,6 +1,6 @@
 from litellm import completion
 import json
-def response(messages):
+def generate_response(messages):
     response=completion(
         model="ollama/llama3",
         messages=messages,
@@ -14,13 +14,12 @@ def context_data():
     with open("context.json","r")as file:
         data=json.load(file)
     return data
-def add_context(que,response):
+
+  
+def add_context(context):
     data=context_data()
-    new_data={
-        "user_asked":que,
-        "chatbot replied":response
-    }
-    data.append(new_data)
+    
+    data.append(context)
     with open("context.json","w")as file:
         json.dump(data,file,indent=3)
     

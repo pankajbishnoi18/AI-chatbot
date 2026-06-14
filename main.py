@@ -1,28 +1,31 @@
-from brain import generate_response,add_context,context_data,save_name_in_history,save_history
+from brain import generate_response,add_context,context_data,chat_saver,save_history
 from agent_rules import rules
 import json
-from ui import welcome_message,goodbye_message
+from ui import welcome_message
 from commands import system_commands,execute_command
 print(welcome_message())
+save_history("new_session-------------------------------------------------------------------------",welcome_message())
 print(system_commands)
 while True:
     key=int(input("enter the command sir:"))
-    if key==7:
-        print(goodbye_message())
-        break
     result=execute_command(key)
-    
-    
-    
-    if result[0]==16 or result[0]==17:
-        if result[0]==16:
+    if key==7:  
+        save_history(key,result)
+        print(result)
+
+        break    
+    if isinstance(result, tuple):
+       
+        if result[0]=="started a new chat":
             add_context(rules)
+            save_history(key,"started a new chat")
+
         while True:
             user_asked=input("user:")
             
     
             if user_asked=="end":
-                save_name_in_history(result[1])
+                print(chat_saver(result[1]))
 
                 break
             try:
@@ -41,5 +44,3 @@ while True:
         print(result)
 
     
-#this main loop is to yet be checked especilaly the result[0]=17 parrt , i have defined lll the commmands , stil have to check the 
-#history saving and loading funvctions 

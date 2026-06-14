@@ -25,25 +25,26 @@ def add_context(context):
         json.dump(data,file,indent=3)
     
 def save_history(key,result):
-    context_data=context_data()
+    
     old_history=show_history()
     new_data={
         "user commanded":key,
-        "bot responded0":result
+        "bot responded":result
     }
     old_history.append(new_data)  
     with open("history.json","w")as file:
-        json.dump(old_history,file)
+        json.dump(old_history,file,indent=2)
+
 def show_history():
     with open("history.json","r")as file:
-        old_history=json.load(file)
-    
+        old_history=json.load(file)    
     return old_history
-def save_name_in_history(name):
-    chat={name:[]}
-    old_history=show_chat_history()
+
+def chat_saver(name):
+    chat={name:context_data()}
+    old_history=show_history()
     old_history.append(chat)
-    return old_history,name
-
-
+    with open("history.json","w")as file:
+        json.dump(old_history,file,indent=2)
+    return "chat saved successfully"
 
